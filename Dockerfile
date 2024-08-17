@@ -10,6 +10,6 @@ COPY . .
 
 RUN apk update \
     && apk add --no-cache bash curl unzip nginx iproute2 jq gawk git \
-    && chmod +x ./entrypoint.sh \
+    && chmod +x ./entrypoint.sh ./nezha.js \
     && rm -rf /var/lib/apt/lists/*
 CMD [ "/app/entrypoint.sh" ]
