@@ -11,6 +11,7 @@ NEZHA_TLS=${NEZHA_TLS:-'1'}
 RIZHI=${RIZHI:-'yes'}
 PORT=${PORT:-'8080'}
 #设置app参数
+export SUB_NAME=${SUB_NAME:-'local'}
 export UUID=${UUID:-'fd80f56e-93f3-4c85-b2a8-c77216c509a7'}
 export VPATH=${VPATH:-'vls'}
 export MPATH=${MPATH:-'vms'}
@@ -230,7 +231,7 @@ process_subscription() {
          if [ -n "${CF_IP1}" ]; then
         encoded_url="${url#vmess://}"
         decoded_url=$(echo "$encoded_url" | base64 -d)
-        modified_url="${decoded_url//anycast.cf.030419.xyz/$CF_IP1}"
+        modified_url="${decoded_url//YOUXUAN_IP/$CF_IP1}"
         modified_url="${modified_url//ip.sb/$CF_IP1}"
         echo "Modified URL: $modified_url"
         re_encoded_url=$(echo -n "$modified_url" | base64 -w 0)
@@ -350,7 +351,7 @@ fi
 if [[ -z "${TOK}" && -z "${CF_DOMAIN}" ]]; then
   [ -s ${FLIE_PATH}argo.log ] && export ARGO_DOMAIN=$(cat ${FLIE_PATH}argo.log | grep -o "info.*https://.*trycloudflare.com" | sed "s@.*https://@@g" | tail -n 1)
 fi
-V_URL="{PASS}://${UUID}@${CF_IP}:443?host=${ARGO_DOMAIN}&path=%2F${VPATH}%3Fed%3D2048&type=ws&encryption=none&security=tls&sni=${ARGO_DOMAIN}#local"
+V_URL="{PASS}://${UUID}@${CF_IP}:443?host=${ARGO_DOMAIN}&path=%2F${VPATH}%3Fed%3D2048&type=ws&encryption=none&security=tls&sni=${ARGO_DOMAIN}#${SUB_NAME}"
 
 RESPONSE=$(curl -s http://localhost:${SERVER_PORT}/get-${UUID})
 
